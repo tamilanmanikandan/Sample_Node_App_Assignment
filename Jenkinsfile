@@ -65,10 +65,10 @@ pipeline{
 
         stage('Build'){
             steps{
-                sh 'sudo docker build -t node_app .'
-                sh 'sudo docker tag node_app:latest 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest'
+                sh 'docker build -t node_app .'
+                sh 'docker tag node_app:latest 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest'
                 sh 'aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 859058206093.dkr.ecr.us-east-1.amazonaws.com'
-                sh 'sudo docker push 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest'
+                sh 'docker push 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest'
             }
         }
 
@@ -93,7 +93,7 @@ pipeline{
     post {
         always {
             deleteDir()
-            sh 'sudo docker rmi 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest'
+            sh 'docker rmi 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest'
         }
 
     }
