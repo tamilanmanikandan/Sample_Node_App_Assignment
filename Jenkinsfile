@@ -3,7 +3,7 @@
 pipeline {
     agent any
     environment {
-        registry = "859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest "
+        registry = "859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest"
     }
     
     stages {
@@ -25,8 +25,8 @@ pipeline {
     stage('Pushing to ECR') {
         steps{
             script {
-                sh 'docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest  '
-                sh 'docker push 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest '
+                sh 'docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest '
+                sh 'docker push 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest'
             }
         }
     }
@@ -35,7 +35,7 @@ pipeline {
      steps{
          script {
              sshagent(credentials : ['upgrad']){
-                sh 'ssh -o StrictHostKeyChecking=no ubuntu@10.0.2.21 "docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest  && docker pull 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest && (docker ps -f name=node -q | xargs --no-run-if-empty docker container stop) && (docker container ls -a -fname=node -q | xargs -r docker container rm) && docker run -d -p 8081:8081 --rm --name node 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest "'
+                sh 'ssh -o StrictHostKeyChecking=no ubuntu@10.0.2.21 "docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest && docker pull 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest && (docker ps -f name=node -q | xargs --no-run-if-empty docker container stop) && (docker container ls -a -fname=node -q | xargs -r docker container rm) && docker run -d -p 8081:8081 --rm --name node 859058206093.dkr.ecr.us-east-1.amazonaws.com/courseassignment:latest"'
 
              }
                 
